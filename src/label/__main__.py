@@ -1,3 +1,4 @@
 from . import generate
 
-generate.main()
+if __name__ == "__main__":
+    generate.main()

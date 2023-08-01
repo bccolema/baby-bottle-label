@@ -1,0 +1,103 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "bottle label",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "print",
+                    "slots": [],
+                    "samples": [
+                        "labels",
+                        "make",
+                        "print"
+                    ]
+                },
+                {
+                    "name": "print_qty",
+                    "slots": [
+                        {
+                            "name": "quantity",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "make {quantity} labels",
+                        "print {quantity} labels",
+                        "make {quantity}",
+                        "print {quantity}",
+                        "{quantity}"
+                    ]
+                },
+                {
+                    "name": "print_date",
+                    "slots": [
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
+                    "samples": [
+                        "make labels for {date}",
+                        "print labels for {date}",
+                        "labels for {date}",
+                        "make for {date}",
+                        "print for {date}",
+                        "make {date}",
+                        "print {date}",
+                        "{date}"
+                    ]
+                },
+                {
+                    "name": "print_qty_date",
+                    "slots": [
+                        {
+                            "name": "quantity",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
+                    "samples": [
+                        "make {quantity} labels {date}",
+                        "make {quantity} labels on {date}",
+                        "make {quantity} labels for {date}",
+                        "print {quantity} labels {date}",
+                        "print {quantity} labels on {date}",
+                        "print {quantity} labels for {date}",
+                        "{quantity} labels {date}",
+                        "make {quantity} {date}",
+                        "make {quantity} on {date}",
+                        "make {quantity} for {date}",
+                        "print {quantity} {date}",
+                        "print {quantity} on {date}",
+                        "print {quantity} for {date}",
+                        "{quantity} {date}"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}
