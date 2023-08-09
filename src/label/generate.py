@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -54,15 +54,15 @@ def font_size_for_line(
 
 def generate_image(
     text: List[str],
-    image_size: List[int],
-    padding: List[int],
+    image_size: Tuple[int, int],
+    padding: Tuple[int, int, int, int],
     debug: str = "",
 ) -> Image:
     orig_width, orig_height = image_size
 
-    pad_top, pad_left = padding
-    height = orig_height - (pad_top * 2)
-    width = orig_width - (pad_left * 2)
+    pad_top, pad_right, pad_bottom, pad_left = padding
+    height = orig_height - pad_top - pad_bottom
+    width = orig_width - pad_left - pad_right
 
     line_height_em = 1.2
     line_count = len(text)
@@ -74,7 +74,9 @@ def generate_image(
     if debug and "padding" in debug:
         # Draw padding lines
         d.line(((pad_left, 0), (pad_left, orig_height)))
+        d.line(((orig_width - pad_right, 0), (orig_width - pad_right, orig_height)))
         d.line(((0, pad_top), (orig_width, pad_top)))
+        d.line(((0, orig_height - pad_bottom), (orig_width, orig_height - pad_bottom)))
 
     for i, line in enumerate(text):
         font_size = font_size_for_line(
@@ -122,8 +124,8 @@ def main():
     parser.add_argument(
         "--padding",
         "-p",
-        default=[10, 10],
-        nargs=2,
+        default=[10, 10, 10, 10],
+        nargs=4,
         type=int,
         help="Padding around label in pixels (Default: %(default)s)",
     )
@@ -136,10 +138,11 @@ def main():
         help="Size in pixels. (Default %(default)s)",
     )
     parser.add_argument("--show", action="store_true")
+    parser.add_argument("--debug", default="")
 
     args = parser.parse_args()
-    if 2 != len(args.padding):
-        raise ValueError("padding takes 2 args")
+    if 4 != len(args.padding):
+        raise ValueError("padding takes 4 args")
     if 2 != len(args.image_size):
         raise ValueError("image-size takes 2 args")
 
@@ -151,7 +154,8 @@ def main():
             .split("\n")
         ),
         image_size=args.image_size,
-        padding=args.padding,
+        padding=tuple(args.padding),
+        debug=args.debug,
     )
     im.save(args.output)
     if args.show:

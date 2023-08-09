@@ -154,11 +154,13 @@ def print_label(quantity: int, month_tuple: Tuple[str, str], day: int) -> dict:
     text = [f"{month_tuple[1]} {day}"]
     if CONFIG.baby_name:
         text.insert(0, CONFIG.baby_name)
+        if CONFIG.baby_name_twice:
+            text.append(CONFIG.baby_name)
 
     img = generate_image(
         text=text,
-        image_size=[int(x * DPI) for x in CONFIG.label_size],
-        padding=CONFIG.padding,
+        image_size=(int(CONFIG.label_size[0] * DPI), int(CONFIG.label_size[1] * DPI)),
+        padding=tuple(CONFIG.padding),
     )
     if not img:
         return response(f"Sorry, I failed to make the {say_request}")
@@ -249,12 +251,17 @@ def main():
     )
     parser.add_argument(
         "--padding",
-        nargs=2,
-        help=f"Padding in pixels",
+        nargs=4,
+        help=f"Padding in pixels. Top, Right, Bottom, Left",
     )
     parser.add_argument("--printer-name")
     parser.add_argument(
         "--config", help="Path to config.ini file. Defaults to local config.ini."
+    )
+    parser.add_argument(
+        "--no-baby-name-twice",
+        action="store_true",
+        help="If set, do not add baby name after last line",
     )
     args = parser.parse_args()
 
@@ -279,6 +286,8 @@ def main():
         cfg_dict["padding"] = args.padding
     if args.printer_name:
         cfg_dict["printer_name"] = args.printer_name
+    if args.no_baby_name_twice:
+        cfg_dict["baby_name_twice"] = False
     CONFIG = cfg = Config(**cfg_dict)
 
     print(f"Config: {dataclasses.asdict(cfg)}")

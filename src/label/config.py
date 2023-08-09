@@ -13,6 +13,7 @@ class Config:
     port: int
     debug: bool
     baby_name: str
+    baby_name_twice: bool
     alexa_app_id: List[str]
     label_size: List[float]  # Inches
     padding: List[int]  # Pixels
@@ -28,7 +29,9 @@ class Config:
 
         self.alexa_app_id = self._flat_str_list(self.alexa_app_id)
         self.label_size = self._to_list(self.label_size, float)
+        assert len(self.label_size) == 2
         self.padding = self._to_list(self.padding, int)
+        assert len(self.padding) == 4
         self.port = int(self.port)
 
     @classmethod
@@ -78,8 +81,14 @@ DEFAULT = Config(
     port=7788,
     debug=False,
     baby_name="",
+    baby_name_twice=True,
     alexa_app_id=[],
-    label_size=[2, 0.75],
-    padding=[10, 10],
+    # label_size=[2, 0.75],
+    # padding=[10, 10, 10, 10],
+    # Seems the printer driver picks a known size close enough when a custom
+    # size is specified. In order to print a 1x2in label we print a 2x2in with
+    # 300px (for 300dpi) bottom padding to offset this.
+    label_size=[2, 2],
+    padding=[10, 10, 300, 100],
     printer_name="dymo450",
 )

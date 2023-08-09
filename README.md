@@ -7,6 +7,9 @@ Set up a skill and use the provided `interaction-model.json`.
 Sorry this README is sparse. If you care for more instructions,
 please create an issue. Thanks.
 
+Labels used:
+[30330 3/4" x 2" (with extra 1/4" x 2" label)](https://www.amazon.com/gp/product/B06X99NHX2)
+
 ```shell
 sudo apt update
 sudo apt install -y vim unattended-upgrades \
@@ -85,4 +88,15 @@ ExecStart=/srv/bottle/venv/bin/python3 -m label.server --baby-name 'foobar'
 
 [Install]
 WantedBy=multi-user.target
+```
+
+## Simpler
+
+Well, I knew ImageMagick could do it I just couldn't find it.
+
+```
+convert -background white -fill black -density 300x300 -size 600x300 -gravity center \
+  label:'Baby Name\nAug 9' foo.png
+
+lp -d dymo450 -o media=Custom.2x2in -o fit-to-page -o landscape foo.png
 ```
