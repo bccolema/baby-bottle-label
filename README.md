@@ -53,15 +53,16 @@ sudo systemctl restart cups
 
 # Create bottle service account
 sudo useradd -r bottle
-sudo mkdir /srv/bottle
+sudo mkdir -p /srv/bottle/bottle-label 
 sudo chown -R bottle:bottle /srv/bottle
 
 # Copy this project into /srv/bottle/bottle-label
-sudo chown -R bottle:bottle /srv/bottle
+sudo chown -R bottle:bottle /srv/bottle/bottle-label
 
 # Switch to bottle user & init server
 sudo su - bottle
-cd /srv/bottle
+cd /srv/bottle/bottle-label
+exit
 python3 -m venv venv
 ./venv/bin/python -m pip install -U pip wheel setuptools
 ./venv/bin/python -m pip install -e ./bottle-label
