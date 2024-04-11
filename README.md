@@ -63,10 +63,11 @@ sudo chown -R bottle:bottle /srv/bottle/bottle-label
 sudo su - bottle
 cd /srv/bottle
 git clone 
-exit
 python3 -m venv venv
 ./venv/bin/python -m pip install -U pip wheel setuptools
 ./venv/bin/python -m pip install -e ./bottle-label
+
+exit
 
 # Install the below systemd service into
 # /etc/systemd/system/bottle-label.service
